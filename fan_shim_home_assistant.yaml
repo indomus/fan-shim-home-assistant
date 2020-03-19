@@ -1,0 +1,27 @@
+sensor:
+  - platform: command_line
+    name: Temperatura CPU
+    command: "cat /sys/class/thermal/thermal_zone0/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | multiply(0.001) | round(1) }}'
+    scan_interval: 10
+switch:
+  - platform: rpi_gpio
+    ports:
+      18: Fan SHIM
+climate:
+  - platform: generic_thermostat
+    name: Fan SHIM
+    heater: switch.fan_shim
+    target_sensor: sensor.temperatura_cpu
+    min_temp: 40
+    max_temp: 80
+    ac_mode: true
+    target_temp: 40
+    cold_tolerance: 0.1
+    hot_tolerance: 0.1
+    min_cycle_duration:
+      seconds: 120
+    keep_alive:
+      minutes: 5
+    initial_hvac_mode: "cool"
