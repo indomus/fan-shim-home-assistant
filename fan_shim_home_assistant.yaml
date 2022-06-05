@@ -7,8 +7,9 @@ sensor:
     scan_interval: 10
 switch:
   - platform: rpi_gpio
-    ports:
-      18: Fan SHIM
+    switches:
+      - port: 18
+        name: "Fan SHIM"
 climate:
   - platform: generic_thermostat
     name: Fan SHIM
